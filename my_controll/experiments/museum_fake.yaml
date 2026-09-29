@@ -1,0 +1,966 @@
+Experiment:
+    name: main_loop
+    class_name: cognitive_processes.main_loop.MainLoop
+    new_executor: True
+    threads: 2
+    parameters: 
+        iterations: 100
+        trials: 20
+        subgoals: False
+        softmax_selection: False
+        softmax_temperature: 0.3
+        kill_on_finish: True
+Control:
+    id: ltm_simulator
+    control_topic: /main_loop/control
+    control_msg: cognitive_processes_interfaces.msg.ControlMsg
+    episodes_topic: /main_loop/episodes
+    episodes_msg: core_interfaces.msg.Container
+    #executed_policy_service: /emdb/simulator/executed_policy
+    executed_policy_msg: cognitive_node_interfaces.srv.Policy
+    # world_reset_service: /emdb/simulator/world_reset
+    world_reset_msg: cognitive_processes_interfaces.srv.WorldReset
+LTM:
+    Files:
+        -
+            id: goodness
+            class: core.file.FileGoodness
+            file: goodness.txt
+        -
+            id: pnodes_success
+            class: core.file.FilePNodesSuccess
+            file: pnodes_success.txt
+        -
+            id: pnodes_content
+            class: core.file.FilePNodesContent
+            file: pnodes_content.txt
+        -
+            id: pnodes_content_last_iteration
+            class: core.file.FileLastIterationPNodesContent
+            file: pnodes_content_last_ite.txt
+        -
+            id: goals_content
+            class: core.file.FileGoalsContent
+            file: goals_content.txt
+        -
+            id: goals_content_last_iteration
+            class: core.file.FileLastIterationGoalsContent
+            file: goals_content_last_ite.txt
+        -
+            id: trials
+            class: core.file.FileTrialsSuccess
+            file: trials.txt
+        -
+            id: neighbors
+            class: core.file.FileNeighbors
+            file: neighbors.txt
+        -
+            id: neighbors_full
+            class: core.file.FileNeighborsFull
+            file: neighbors_full.txt
+    Connectors:
+        -
+            data: Space
+            default_class: cognitive_nodes.space.ANNSpace
+        -
+            data: Perception
+            default_class: cognitive_nodes.perception.Perception
+        -
+            data: PNode
+            default_class: cognitive_nodes.pnode.PNode
+            parameters:
+                space_class: cognitive_nodes.space.SVMSpace
+                space_size: 50000
+                history_size: 100
+        -
+            data: CNode
+            default_class: cognitive_nodes.cnode.CNode
+            parameters:
+                history_size: 40
+                track_competence: True
+        -
+            data: Goal
+            default_class: cognitive_nodes.goal.GoalLearnedSpace
+            parameters:
+                space_class: cognitive_nodes.space.SVMSpace
+                space_size: 50000
+                history_size: 300  
+                min_confidence: 0.94  
+                ltm_id: ltm_0
+        -
+            data: WorldModel
+            default_class: cognitive_nodes.world_model.WorldModel
+        -
+            data: Policy
+            default_class: cognitive_nodes.policy.PolicyBlocking
+
+    Nodes:
+        Perception:
+            -
+                name: age
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/age_composition
+            -
+                name: blue_area  #people placed in blue area
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/blue_area
+            -
+                name: spatial  #spatial information (linear, ...)
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/spatial_formation
+            -
+                name: posture_state #seated/standing
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/postural_assessment
+            -
+                name: noise_level
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /room/noise_level
+            -
+                name: interpersonal_spacing
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/interpersonal_spacing
+            -
+                name: engage
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /vlm/engagement_rating
+            -
+                name: timeline
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /exhibition/timeline
+            -
+                name: guide
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /exhibition/guide
+            -
+                name: people
+                class_name: my_controll.perceptions.MuseumPerception
+                parameters:
+                  default_msg: std_msgs.msg.Float32
+                  default_topic: /exhibition/people
+
+        WorldModel:
+            -
+                name: GENERAL
+                class_name: my_controll.world_models.MuseumGeneralPeople
+                parameters:
+                    neighbors: [{"name": "age", "node_type": "Perception"}]
+            -
+                name: MAJOR
+                class_name: my_controll.world_models.MuseumMajorPeople
+                parameters:
+                    neighbors: [{"name": "age", "node_type": "Perception"}]
+            -
+                name: KIDS
+                class_name: my_controll.world_models.MuseumYoungPeople
+                parameters:
+                    neighbors: [{"name": "age", "node_type": "Perception"}]
+            -
+                name: MIX
+                class_name: my_controll.world_models.MuseumMixPeople
+                parameters:
+                    neighbors: [{"name": "age", "node_type": "Perception"}]
+              
+        RobotPurpose: 
+            - 
+                name: novelty_need
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.1
+                    drive_id: 'novelty_drive'
+                    purpose_type: 'Need'
+            -
+                name: visitors_welcome
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 1.0
+                    drive_id: 'people_arrived_drive' 
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_placed_experienced
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.9
+                    drive_id: 'visitors_organized_experienced_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_placed_novel
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.0 #0.9
+                    drive_id: 'visitors_organized_novel_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_quite_experienced
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.8
+                    drive_id: 'visitors_quite_experienced_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_quite_novel
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.0 #0.8
+                    drive_id: 'visitors_quite_novel_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_engagement_experienced
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.7
+                    drive_id: 'engage_experienced_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_engagement_novel
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.0 #0.7
+                    drive_id: 'engage_novel_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_exhibition_experienced
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.6
+                    drive_id: 'exhibition_experienced_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+            -
+                name: visitors_exhibition_novel
+                class_name: cognitive_nodes.robot_purpose.RobotPurpose
+                parameters:
+                    weight: 0.0 #0.6
+                    drive_id: 'exhibition_novel_drive'
+                    purpose_type: 'Mission'
+                    terminal: False
+
+        Drive:
+            -
+                name: novelty_drive
+                class_name: cognitive_nodes.novelty.DriveNovelty
+                parameters:
+                    neighbors: [{"name": "novelty_need", "node_type": "RobotPurpose"}]
+            -
+                name: people_arrived_drive
+                class_name: dummy_nodes.dummy_drive.DriveDummy #cognitive_nodes.drive.DriveExponential
+                parameters:
+                    input_topic: /exhibition/people
+                    input_msg: std_msgs.msg.Float32
+                    neighbors: [{"name": "visitors_welcome", "node_type": "RobotPurpose"}]
+            -
+                name: visitors_organized_novel_drive
+                class_name: my_controll.drives.DriveExponential
+                parameters:
+                    input_topic: ["/vlm/spatial_formation", "/vlm/postural_assessment", "/vlm/interpersonal_spacing"] #TADY VYRESIT ROZDIL CLOSER
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_placed_novel", "node_type": "RobotPurpose"}]
+            -
+                name: visitors_organized_experienced_drive
+                class_name: my_controll.drives.DriveExponential
+                parameters:
+                    input_topic: ["/vlm/spatial_formation", "/vlm/postural_assessment"] #TADY VYRESIT ROZDIL
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_placed_experienced", "node_type": "RobotPurpose"}]
+            -
+                name: visitors_quite_novel_drive
+                class_name: my_controll.drives.DriveExponentialOpo
+                parameters:
+                    input_topic: /room/noise_level #hereeee
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_quite_novel", "node_type": "RobotPurpose"}]
+            -
+                name: visitors_quite_experienced_drive
+                class_name: my_controll.drives.DriveExponentialOpo
+                parameters:
+                    input_topic: /room/noise_level #herreeee
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_quite_experienced", "node_type": "RobotPurpose"}]
+            -
+                name: exhibition_novel_drive
+                class_name: cognitive_nodes.drive.DriveExponential
+                parameters:
+                    input_topic: /exhibition/timeline
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_exhibition_novel", "node_type": "RobotPurpose"}]
+            -
+                name: exhibition_experienced_drive
+                class_name: cognitive_nodes.drive.DriveExponential
+                parameters:
+                    input_topic: /exhibition/timeline
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8 
+                    neighbors: [{"name": "visitors_exhibition_experienced", "node_type": "RobotPurpose"}]
+            -
+                name: engage_novel_drive
+                class_name: cognitive_nodes.drive.DriveExponential
+                parameters:
+                    input_topic: /vlm/engagement_rating
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8
+                    neighbors: [{"name": "visitors_engagement_novel", "node_type": "RobotPurpose"}]
+            -
+                name: engage_experienced_drive
+                class_name: cognitive_nodes.drive.DriveExponential
+                parameters:
+                    input_topic: /vlm/engagement_rating
+                    input_msg: std_msgs.msg.Float32
+                    min_eval: 0.8
+                    neighbors: [{"name": "visitors_engagement_experienced", "node_type": "RobotPurpose"}]
+
+        Goal:
+            -
+                name: novelty_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "novelty_drive", "node_type": "Drive"}]
+            -
+                name: people_arrived_goal
+                class_name: dummy_nodes.dummy_goal.GoalDummy #cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "people_arrived_drive", "node_type": "Drive"}]
+            -
+                name: in_row_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "visitors_organized_experienced_drive", "node_type": "Drive"}]
+            -
+                name: seated_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "visitors_organized_experienced_drive", "node_type": "Drive"}]
+            -
+                name: blue_area_goal
+                class_name: my_controll.goals.SubGoal
+                parameters:
+                    neighbors: [{"name": "seated_goal", "node_type": "Goal"},
+                                {"name": "in_row_goal", "node_type": "Goal"},
+                                {"name": "separated_seated_goal", "node_type": "Goal"},
+                                {"name": "separated_in_row_goal", "node_type": "Goal"}]
+            # -
+            #     name: blue_area_expe_goal
+            #     class_name: my_controll.goals.SubGoal
+            #     parameters:
+            #         neighbors: [{"name": "seated_goal", "node_type": "Goal"},
+            #                     {"name": "in_row_goal", "node_type": "Goal"}]
+            # -
+            #     name: blue_area_novel_goal
+            #     class_name: my_controll.goals.SubGoal
+            #     parameters:
+            #         neighbors: [{"name": "separated_seated_goal", "node_type": "Goal"},
+            #                     {"name": "separated_in_row_goal", "node_type": "Goal"}]
+            -
+                name: separated_seated_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "visitors_organized_novel_drive", "node_type": "Drive"}]
+            -
+                name: separated_in_row_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "visitors_organized_novel_drive", "node_type": "Drive"}]
+            -
+                name: noise_level_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "visitors_quite_novel_drive", "node_type": "Drive"},
+                                {"name": "visitors_quite_experienced_drive", "node_type": "Drive"}]
+            -
+                name: closer_distance_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "engage_experienced_drive", "node_type": "Drive"}]
+            -
+                name: raise_hand_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "engage_novel_drive", "node_type": "Drive"},
+                                {"name": "engage_experienced_drive", "node_type": "Drive"}]
+            -
+                name: laughing_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "engage_novel_drive", "node_type": "Drive"},
+                                {"name": "engage_experienced_drive", "node_type": "Drive"}]
+            -
+                name: script_followed_goal
+                class_name: cognitive_nodes.goal.GoalMotiven
+                parameters:
+                    neighbors: [{"name": "exhibition_novel_drive", "node_type": "Drive"},
+                                {"name": "exhibition_experienced_drive", "node_type": "Drive"}]
+            # -
+            #     name: sing_goal
+            #     class_name: cognitive_nodes.goal.GoalMotiven
+            #     parameters:
+            #         neighbors: [{"name": "visitors_quite_novel_drive", "node_type": "Drive"},
+            #                     {"name": "visitors_quite_experienced_drive", "node_type": "Drive"}]
+            # -
+            #     name: dance_goal
+            #     class_name: cognitive_nodes.goal.GoalMotiven
+            #     parameters:
+            #         neighbors: [{"name": "engage_novel_drive", "node_type": "Drive"},
+            #                     {"name": "engage_experienced_drive", "node_type": "Drive"}]
+            # -
+            #     name: talk_goal
+            #     class_name: cognitive_nodes.goal.GoalMotiven
+            #     parameters:
+            #         neighbors: [{"name": "engage_novel_drive", "node_type": "Drive"},
+            #                     {"name": "engage_experienced_drive", "node_type": "Drive"}] #Tady bude novy drive
+
+        PNode:
+            -
+                name: novelty_pnode
+                class_name: dummy_nodes.dummy_pnodes.ActivatedDummyPNode
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+            -
+                name: people_arrived_pnode
+                class_name: my_controll.pnodes.PNodePeople #dummy_nodes.dummy_pnodes.ActivatedDummyPNode #
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "age", "node_type": "Perception"}, {"name": "guide", "node_type": "Perception"}]
+            -
+                name: people_out_blue_experienced_pnode
+                class_name: my_controll.pnodes.PNodeBlue
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "blue_area", "node_type": "Perception"}]
+            -
+                name: not_seated_experienced_pnode
+                class_name: my_controll.pnodes.PNodePosture
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "posture_state", "node_type": "Perception"}]
+            -
+                name: not_in_a_row_experienced_pnode
+                class_name: my_controll.pnodes.PNodeSpatial
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "spatial", "node_type": "Perception"}]
+            -
+                name: people_loud_experienced_pnode
+                class_name: my_controll.pnodes.PNodeSilence
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "noise_level", "node_type": "Perception"}]
+            # -
+            #     name: people_bored_state_experienced_pnode
+            #     class_name: my_controll.pnodes.PNodeEngageExp
+            #     parameters:
+            #         space_class: cognitive_nodes.space.ActivatedDummySpace
+            #         neighbors: [{"name": "engage", "node_type": "Perception"}, {"name": "guide", "node_type": "Perception"}]
+            -
+                name: people_bored_state_experienced_low_pnode
+                class_name: my_controll.pnodes.PNodeEngageLow
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "engage", "node_type": "Perception"}]
+            -
+                name: people_bored_state_experienced_lowlow_pnode
+                class_name: my_controll.pnodes.PNodeEngageLowLow
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "engage", "node_type": "Perception"}]
+            -
+                name: people_ready_script_experienced_pnode
+                class_name: my_controll.pnodes.PNodeScript
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            -
+                name: people_ready_screen_experienced_pnode
+                class_name: my_controll.pnodes.PNodeScreen
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            -
+                name: people_ready_point_experienced_pnode
+                class_name: my_controll.pnodes.PNodePoint
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            #---------
+            -
+                name: people_out_blue_novel_pnode
+                class_name: my_controll.pnodes.PNodeBlue
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "blue_area", "node_type": "Perception"}]
+            -
+                name: not_seated_and_close_novel_pnode
+                class_name: my_controll.pnodes.PNodePostureSepar
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "posture_state", "node_type": "Perception"}, {"name": "interpersonal_spacing", "node_type": "Perception"}]
+            -
+                name: not_in_a_row_and_close_novel_pnode
+                class_name: my_controll.pnodes.PNodeSpatialSepar
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "spatial", "node_type": "Perception"}, {"name": "interpersonal_spacing", "node_type": "Perception"}]
+            -
+                name: people_loud_novel_pnode
+                class_name: my_controll.pnodes.PNodeSilence
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "noise_level", "node_type": "Perception"}]
+            -
+                name: people_bored_state_novel_pnode
+                class_name: my_controll.pnodes.PNodeEngageNov
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "engage", "node_type": "Perception"}, {"name": "guide", "node_type": "Perception"}]
+            -
+                name: people_ready_script_novel_pnode
+                class_name: my_controll.pnodes.PNodeScript
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            -
+                name: people_ready_point_novel_pnode
+                class_name: my_controll.pnodes.PNodePoint
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            -
+                name: people_ready_screen_novel_pnode
+                class_name: my_controll.pnodes.PNodeScreen
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+            -
+                name: rest_pnode
+                class_name: my_controll.pnodes.PNodeRest
+                parameters:
+                    space_class: cognitive_nodes.space.ActivatedDummySpace
+                    neighbors: [{"name": "timeline", "node_type": "Perception"}]
+        CNode:
+            -
+                name: people_arrived_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "people_arrived_goal", "node_type": "Goal"}, {"name": "GENERAL", "node_type": "WorldModel"}, {"name": "people_arrived_pnode", "node_type": "PNode"}]
+
+            -
+                name: rest_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "rest_pnode", "node_type": "PNode"}]
+
+            -
+                name: rest_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "rest_pnode", "node_type": "PNode"}] 
+
+            -
+                name: people_out_blue_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_out_blue_experienced_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_out_blue_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_out_blue_experienced_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_out_blue_experienced_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_out_blue_experienced_pnode", "node_type": "PNode"}]
+            
+            -
+                name: people_out_blue_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_out_blue_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_out_blue_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_out_blue_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_out_blue_novel_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "blue_area_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_out_blue_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: loud_people_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "noise_level_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_loud_experienced_pnode", "node_type": "PNode"}]
+
+            -
+                name: loud_people_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "noise_level_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_loud_experienced_pnode", "node_type": "PNode"}]
+
+            -
+                name: loud_people_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "noise_level_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_loud_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: loud_people_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "noise_level_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_loud_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: not_seated_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "seated_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "not_seated_experienced_pnode", "node_type": "PNode"}]
+
+            -
+                name: not_in_a_row_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "in_row_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "not_in_a_row_experienced_pnode", "node_type": "PNode"}]
+
+            # -
+            #     name: people_bored_state_experienced_major_cnode
+            #     class_name: cognitive_nodes.cnode.CNode
+            #     parameters:
+            #         neighbors: [{"name": "laughing_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_bored_state_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_bored_state_low_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "raise_hand_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_bored_state_experienced_low_pnode", "node_type": "PNode"}]
+            -
+                name: people_bored_state_lowlow_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "closer_distance_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_bored_state_experienced_lowlow_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_script_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_script_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_script_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_script_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_script_experienced_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_script_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_screen_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_screen_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_experienced_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_screen_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_point_experienced_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_point_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_point_experienced_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_point_experienced_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_point_experienced_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_point_experienced_pnode", "node_type": "PNode"}]
+
+            # ---- NOVEL ----
+
+            -
+                name: not_seated_and_close_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "separated_seated_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "not_seated_and_close_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: not_in_a_row_and_close_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "separated_in_row_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "not_in_a_row_and_close_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_bored_state_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "laughing_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_bored_state_novel_pnode", "node_type": "PNode"}]
+            
+            -
+                name: people_bored_state_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "laughing_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_bored_state_novel_pnode", "node_type": "PNode"}]
+
+            -
+                name: people_ready_script_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_script_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_script_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_script_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_script_novel_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_script_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_screen_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_screen_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_screen_novel_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_screen_novel_pnode", "node_type": "PNode"}]
+          
+            -
+                name: people_ready_point_novel_major_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MAJOR", "node_type": "WorldModel"}, {"name": "people_ready_point_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_point_novel_kids_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "KIDS", "node_type": "WorldModel"}, {"name": "people_ready_point_novel_pnode", "node_type": "PNode"}]
+            -
+                name: people_ready_point_novel_mix_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "script_followed_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "people_ready_point_novel_pnode", "node_type": "PNode"}]
+            -
+                name: novelty_cnode
+                class_name: cognitive_nodes.cnode.CNode
+                parameters:
+                    neighbors: [{"name": "novelty_goal", "node_type": "Goal"}, {"name": "MIX", "node_type": "WorldModel"}, {"name": "novelty_pnode", "node_type": "PNode"}]
+
+        Policy:
+            -
+                name: select_guide
+                class_name: my_controll.policies_fake.PolicySelectGuide
+                parameters:
+                    neighbors: [{"name": "people_arrived_cnode", "node_type": "CNode"}]
+
+            -
+                name: rest_autonomous
+                class_name: my_controll.policies_fake.PolicyRest
+                parameters:
+                    neighbors: [{"name": "rest_major_cnode", "node_type": "CNode"},
+                                {"name": "rest_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: move_to_blue_area_kids
+                class_name: my_controll.policies_fake.PolicyBlueAreaKids
+                parameters:
+                    neighbors: [{"name": "people_out_blue_experienced_kids_cnode", "node_type": "CNode"},
+                                {"name": "people_out_blue_novel_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: move_to_blue_area_adults
+                class_name: my_controll.policies_fake.PolicyBlueAreaAdults
+                parameters:
+                    neighbors: [{"name": "people_out_blue_experienced_major_cnode", "node_type": "CNode"},
+                                {"name": "people_out_blue_novel_major_cnode", "node_type": "CNode"},
+                                {"name": "people_out_blue_novel_mix_cnode", "node_type": "CNode"},
+                                {"name": "people_out_blue_experienced_mix_cnode", "node_type": "CNode"}]
+
+            -
+                name: be_silence_kids
+                class_name: my_controll.policies_fake.PolicySilenceKids
+                parameters:
+                    neighbors: [{"name": "loud_people_experienced_kids_cnode", "node_type": "CNode"},
+                                {"name": "loud_people_novel_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: be_silence_adults
+                class_name: my_controll.policies_fake.PolicySilenceAdults
+                parameters:
+                    neighbors: [{"name": "loud_people_experienced_major_cnode", "node_type": "CNode"},
+                                {"name": "loud_people_novel_major_cnode", "node_type": "CNode"}]
+
+            -
+                name: order_to_seat
+                class_name: my_controll.policies_fake.PolicySeat
+                parameters:
+                    neighbors: [{"name": "not_seated_experienced_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: place_in_row
+                class_name: my_controll.policies_fake.PolicyRow
+                parameters:
+                    neighbors: [{"name": "not_in_a_row_experienced_major_cnode", "node_type": "CNode"}]
+
+            -
+                name: separation_seated
+                class_name: my_controll.policies_fake.PolicySepSeat
+                parameters:
+                    neighbors: [{"name": "not_seated_and_close_novel_kids_cnode", "node_type": "CNode"}]
+ 
+            -
+                name: separation_in_row
+                class_name: my_controll.policies_fake.PolicySepRow
+                parameters:
+                    neighbors: [{"name": "not_in_a_row_and_close_novel_major_cnode", "node_type": "CNode"}]
+
+            -
+                name: ask_question_nov
+                class_name: my_controll.policies_fake.PolicyAskNov
+                parameters:
+                    neighbors: [{"name": "people_bored_state_novel_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: ask_question_exp
+                class_name: my_controll.policies_fake.PolicyAskExp
+                parameters:
+                    neighbors: [{"name": "people_bored_state_low_experienced_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: get_closer
+                class_name: my_controll.policies_fake.PolicyGetCloser
+                parameters:
+                    neighbors: [{"name": "people_bored_state_lowlow_experienced_kids_cnode", "node_type": "CNode"}]
+
+            # -
+            #     name: tell_joke_exp
+            #     class_name: my_controll.policies_fake.PolicyJokeExp
+            #     parameters:
+            #         neighbors: [{"name": "people_bored_state_experienced_major_cnode", "node_type": "CNode"}]
+
+            -
+                name: tell_joke_nov
+                class_name: my_controll.policies_fake.PolicyJokeNov
+                parameters:
+                    neighbors: [{"name": "people_bored_state_novel_major_cnode", "node_type": "CNode"}]
+
+            -
+                name: final_skill_adult
+                class_name: my_controll.policies_fake.PolicyScriptAdult
+                parameters:
+                    neighbors: [{"name": "people_ready_script_experienced_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_script_novel_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_script_experienced_mix_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_script_novel_mix_cnode", "node_type": "CNode"}]
+
+            -
+                name: final_skill_kid
+                class_name: my_controll.policies_fake.PolicyScript
+                parameters:
+                    neighbors: [{"name": "people_ready_script_experienced_kids_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_script_novel_kids_cnode", "node_type": "CNode"}]
+            
+            -
+                name: final_skill_screen_kid
+                class_name: my_controll.policies_fake.PolicyScreen
+                parameters:
+                    neighbors: [{"name": "people_ready_screen_experienced_kids_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_screen_novel_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: final_skill_screen_adult
+                class_name: my_controll.policies_fake.PolicyScreenAdult
+                parameters:
+                    neighbors: [{"name": "people_ready_screen_experienced_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_screen_novel_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_screen_experienced_mix_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_screen_novel_mix_cnode", "node_type": "CNode"}]
+
+            -
+                name: final_skill_point_kid
+                class_name: my_controll.policies_fake.PolicyPoint
+                parameters:
+                    neighbors: [{"name": "people_ready_point_experienced_kids_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_point_novel_kids_cnode", "node_type": "CNode"}]
+
+            -
+                name: final_skill_point_adult
+                class_name: my_controll.policies_fake.PolicyPointAdult
+                parameters:
+                    neighbors: [{"name": "people_ready_point_experienced_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_point_novel_major_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_point_experienced_mix_cnode", "node_type": "CNode"},
+                                {"name": "people_ready_point_novel_mix_cnode", "node_type": "CNode"}]
+        
+            -
+                name: sing
+                class_name: my_controll.policies_fake.PolicySing
+                parameters:
+                    neighbors: []
+
+            -
+                name: dance
+                class_name: my_controll.policies_fake.PolicyDance
+                parameters:
+                    neighbors: []
+            
+            -
+                name: talk
+                class_name: my_controll.policies_fake.PolicyTalk
+                parameters:
+                    neighbors: []
+            
+            -
+                name: novelty_policy
+                class_name: my_controll.novelty.PolicyNovelty
+                parameters:
+                    neighbors: [{"name": "novelty_cnode", "node_type": "CNode"}]
+                    ltm_id: ltm_0

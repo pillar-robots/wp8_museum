@@ -1,0 +1,14 @@
+name: qwen3-api
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - flask
+      - flask-cors
+      - waitress
+      - pillow
+      - ollama
+      - requests
+

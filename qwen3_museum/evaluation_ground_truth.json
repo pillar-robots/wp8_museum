@@ -1,0 +1,114 @@
+{
+  "photo_1.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.0,
+    "Engagement rating": "Moderate Engagement"
+  },
+  "photo_2.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.83,
+    "Engagement rating": "Moderate Engagement"
+  },
+  "photo_3.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "In a Row",
+    "Interpersonal spacing": "Close",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.8,
+    "Engagement rating": "High Engagement"
+  },
+  "photo_4.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.67,
+    "Engagement rating": "Low Engagement"
+  },
+  "photo_5.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Mixed (Standing/Seated)",
+    "Area positioning": 0.67,
+    "Engagement rating": "Low Engagement"
+  },
+  "photo_6.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Mixed (Standing/Seated)",
+    "Area positioning": 0.67,
+    "Engagement rating": "Low Engagement"
+  },
+  "photo_7.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Mixed (Standing/Seated)",
+    "Area positioning": 0.67,
+    "Engagement rating": "Low Engagement"
+  },
+  "photo_8.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "In a Row",
+    "Interpersonal spacing": "Close",
+    "Postural assessment": "Sitting Only",
+    "Area positioning": 1.0,
+    "Engagement rating": "High Engagement"
+  },
+  "photo_9.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Sitting Only",
+    "Area positioning": 1.0,
+    "Engagement rating": "High Engagement"
+  },
+  "new_photo_1.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.5,
+    "Engagement rating": "High Engagement"
+  },
+  "new_photo_2.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 1.0,
+    "Engagement rating": "Moderate Engagement"
+  },
+  "new_photo_3.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Mixed (Standing/Seated)",
+    "Area positioning": 1.0,
+    "Engagement rating": "Low Engagement"
+  },
+  "new_photo_4.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "Not in a Row",
+    "Interpersonal spacing": "Separated",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 0.0,
+    "Engagement rating": "Low Engagement"
+  },
+  "new_photo_5.jpg": {
+    "Age composition": "Primarily Young Adults",
+    "Spatial formation": "In a Row",
+    "Interpersonal spacing": "Close",
+    "Postural assessment": "Standing Only",
+    "Area positioning": 1.0,
+    "Engagement rating": "High Engagement"
+  }
+}

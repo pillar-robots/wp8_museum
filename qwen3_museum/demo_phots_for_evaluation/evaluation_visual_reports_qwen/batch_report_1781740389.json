@@ -1,0 +1,6 @@
+{
+  "folder_evaluated": "/home/gpu-admin/stelios/Qwen3-Museum-Group-Interaction-API/demo_phots_for_evaluation",
+  "model": "qwen3.5:35b",
+  "iterations_per_image": 10,
+  "images_data": {}
+}

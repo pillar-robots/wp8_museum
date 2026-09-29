@@ -1,0 +1,1105 @@
+{
+  "folder_evaluated": "/home/gpu-admin/stelios/Qwen3-Museum-Group-Interaction-API/demo_phots_for_evaluation",
+  "model": "qwen3.5:35b",
+  "iterations_per_image": 10,
+  "images_data": {
+    "photo_3.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 2.784,
+        "min": 1.69,
+        "max": 12.28,
+        "std": 3.3366190472792465
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "In a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Close": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Standing Only": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Inside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 12.28
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.73
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.73
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.69
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.74
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.74
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.71
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.72
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.73
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.77
+        }
+      ]
+    },
+    "photo_9.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.617,
+        "min": 1.52,
+        "max": 2.05,
+        "std": 0.15413197807939352
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Separated": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Primarily Seated": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Inside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 2.05
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.57
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.55
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.59
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.59
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.56
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.55
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.6
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.59
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.52
+        }
+      ]
+    },
+    "photo_5.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.724,
+        "min": 1.65,
+        "max": 2.15,
+        "std": 0.15056929006643788
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Separated": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Mixed (Standing/Seated)": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Mixed/On Boundary": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "Moderate Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 2.15
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.67
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.68
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.65
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.71
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.68
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.68
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.66
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.67
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.69
+        }
+      ]
+    },
+    "photo_6.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.7189999999999999,
+        "min": 1.65,
+        "max": 2.13,
+        "std": 0.14594138853967673
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Separated": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Mixed (Standing/Seated)": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Inside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 2.13
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.65
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.66
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.66
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.71
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.65
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.68
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.7
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.69
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.66
+        }
+      ]
+    },
+    "photo_7.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.574,
+        "min": 1.49,
+        "max": 1.98,
+        "std": 0.14416040448827208
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Close": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Mixed (Standing/Seated)": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Mixed/On Boundary": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "Moderate Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.98
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.52
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.52
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.49
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.52
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.52
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.54
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.53
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.56
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Mixed (Standing/Seated)",
+          "Area positioning": "Mixed/On Boundary",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.56
+        }
+      ]
+    },
+    "photo_1.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.6400000000000001,
+        "min": 1.57,
+        "max": 2.06,
+        "std": 0.14824903971958056
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Separated": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Standing Only": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Outside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 2.06
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.6
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.58
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.58
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.57
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.6
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.6
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.6
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.62
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.59
+        }
+      ]
+    },
+    "photo_8.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.825,
+        "min": 1.76,
+        "max": 2.27,
+        "std": 0.15686158087803256
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "In a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Close": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Primarily Seated": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Inside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 2.27
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.76
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.76
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.78
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.78
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.8
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.77
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.79
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.77
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "In a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Primarily Seated",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.77
+        }
+      ]
+    },
+    "photo_2.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.617,
+        "min": 1.56,
+        "max": 2.02,
+        "std": 0.14197417605560056
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Close": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Standing Only": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Inside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "High Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 2.02
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.57
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.58
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.59
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.56
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.56
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.56
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.58
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.57
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Close",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Inside Area",
+          "Engagement rating": "High Engagement",
+          "inference_time_seconds": 1.58
+        }
+      ]
+    },
+    "photo_4.jpg": {
+      "successful_runs": 10,
+      "latency_stats": {
+        "avg": 1.557,
+        "min": 1.48,
+        "max": 1.93,
+        "std": 0.13317073418902683
+      },
+      "answer_distribution": {
+        "Age composition": {
+          "Primarily Young Adults": "10/10 (100.0%)"
+        },
+        "Spatial formation": {
+          "Not in a Row": "10/10 (100.0%)"
+        },
+        "Interpersonal spacing": {
+          "Separated": "10/10 (100.0%)"
+        },
+        "Postural assessment": {
+          "Standing Only": "10/10 (100.0%)"
+        },
+        "Area positioning": {
+          "Outside Area": "10/10 (100.0%)"
+        },
+        "Engagement rating": {
+          "Moderate Engagement": "10/10 (100.0%)"
+        }
+      },
+      "correctness": null,
+      "raw_runs": [
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.93
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.55
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.48
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.48
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.5
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.53
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.54
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.53
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.52
+        },
+        {
+          "Age composition": "Primarily Young Adults",
+          "Spatial formation": "Not in a Row",
+          "Interpersonal spacing": "Separated",
+          "Postural assessment": "Standing Only",
+          "Area positioning": "Outside Area",
+          "Engagement rating": "Moderate Engagement",
+          "inference_time_seconds": 1.51
+        }
+      ]
+    }
+  }
+}

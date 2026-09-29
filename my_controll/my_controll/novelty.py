@@ -1,0 +1,319 @@
+import yaml
+import numpy as np
+from numpy import bool_, float_
+
+from collections import deque
+
+from cognitive_nodes.drive import Drive
+from cognitive_nodes.policy import Policy
+from core.service_client import ServiceClient, ServiceClientAsync
+from core.utils import resolve_seed
+
+from std_msgs.msg import String
+from core_interfaces.srv import GetNodeFromLTM
+from cognitive_node_interfaces.srv import Execute
+    
+class PolicyNovelty(Policy):
+    """
+    PolicyNovelty Class, represents a policy that selects a random policy from the LTM and executes it.
+    """    
+    def __init__(self, name='policy_novelty', exclude_list=[], ltm_id=None, **params):
+        """
+        Constructor of the PolicyNovelty class.
+
+        :param name: Name of the node.
+        :type name: str
+        :param exclude_list: List of policies that should not be selected for executions, defaults to [].
+        :type exclude_list: list
+        :param ltm_id: Id of the LTM that includes the nodes.
+        :type ltm_id: str
+        """        
+        super().__init__(name, **params)
+        self.policies = PolicyQueue()
+        self.LTM_id = ltm_id
+        self.exclude_list=exclude_list
+        self.exclude_list.append(self.name)
+        self.setup()
+        self.counter=0
+        self.ltm_subscriber = self.create_subscription(String, "/state", self.ltm_change_callback, 1, callback_group=self.cbgroup_client)
+        
+
+    def setup(self):
+        """
+        Setup method that configures the PolicyNovelty node.
+        """        
+        ltm = self.request_ltm()
+        random_seed = getattr(self, 'random_seed', None)
+        self.rng = np.random.default_rng(resolve_seed(random_seed))
+        self.configure_policies(ltm)
+        self.get_logger().info("Configured Novelty Policy.")
+
+    def request_ltm(self):
+        """
+        Requests data from the LTM.
+
+        :return: LTM dump.
+        :rtype: dict
+        """        
+        # Call get_node service from LTM
+        service_name = "/" + str(self.LTM_id) + "/get_node"
+        request = ""
+        client = ServiceClient(GetNodeFromLTM, service_name)
+        ltm_response = client.send_request(name=request)
+        ltm = yaml.safe_load(ltm_response.data)
+        return ltm
+    
+    def ltm_change_callback(self, msg):
+        """
+        Callback that reads the LTM change and updates the policies accordingly.
+
+        :param msg: LTM change message.
+        :type msg: std_msgs.msg.String
+        """        
+        self.get_logger().debug("Reading LTM Change...")
+        ltm = yaml.safe_load(msg.data)
+        self.configure_policies(ltm)
+
+    def configure_policies(self, ltm_cache):
+        target_policies_set = set()
+        base_goals = ["laughing_goal", "raise_hand_goal", "closer_distance_goal"]
+        target_goals = set(base_goals)
+
+        for goal in base_goals:
+            for i in range(6):
+                target_goals.add(f"{goal}_dup_{i}")
+        # target_goals = {"laughing_goal", "raise_hand_goal", "closer_distance_goal"}
+        
+        policies_in_cache = ltm_cache.get("Policy", {})
+        
+        for policy_name, policy_data in policies_in_cache.items():
+            neighbors = []
+            if isinstance(policy_data, dict):
+                neighbors = policy_data.get("neighbors", [])
+            
+            for n in neighbors:
+                if isinstance(n, dict) and n.get("node_type") == "CNode":
+                    cnode_name = n.get("name") 
+                    goal_data = ltm_cache.get("CNode", {}).get(cnode_name, {})
+                    neig_goal = goal_data.get("neighbors", [])
+                    
+                    for gn in neig_goal:
+                        if isinstance(gn, dict) and gn.get("node_type") == "Goal" and gn.get("name") in target_goals:
+                            target_policies_set.add(policy_name)
+                            break
+                            
+                elif isinstance(n, dict) and n.get("node_type") == "Perception":
+                    target_policies_set.add(policy_name)
+                    break
+
+        target_policies = list(target_policies_set)
+        self.get_logger().info(f"LTM Policies': {target_policies}") 
+        changes = self.policies.merge(target_policies)
+        if changes:
+            self.policies.shuffle(self.rng)
+            if "talk" in self.policies.queue:
+                self.policies.queue.remove("talk")
+                self.policies.queue.insert(5, "talk")
+
+            self.counter = 0  
+        self.get_logger().info(f"Configured policies: {self.policies.queue}")
+
+    def select_policy(self):
+        """
+        Selects a policy from the queue. It begins by selecting the front policy and rotates the queue, once all the queue has been iterated, the policies are shuffled.
+
+        :return: Selected policy.
+        :rtype: str
+        """        
+        policy=self.policies.select_policy()
+        self.counter+=1
+
+        if self.counter%len(self.policies) == 0:
+            self.get_logger().info(f"DEBUG: Shuffling Policies (Counter: {self.counter} Policies: {len(self.policies)})")
+            self.policies.shuffle(self.rng)
+            self.counter=0
+
+        return policy
+
+    def get_policy_goals_and_purposes(self, policy_name, ltm_cache):
+        policy_data = ltm_cache.get("Policy", {}).get(policy_name)
+
+        if not policy_data:
+            return None, None
+
+        connected_goals = []
+        connected_purposes = []
+
+        neighbors = policy_data.get("neighbors", [])
+
+        for neighbor in neighbors:
+            if neighbor.get("node_type") == "Goal":
+                connected_goals.append(neighbor.get("name"))
+            elif neighbor.get("node_type") == "RobotPurpose":
+                connected_purposes.append(neighbor.get("name"))
+
+        return connected_goals, connected_purposes
+
+    async def execute_callback(self, request, response):
+        """
+        Callback that selects a policy and then executes it.
+
+        :param request: Execution request
+        :type request: cognitive_node_interfaces.srv.Execute.Request
+        :param response: Response of the execution. Includes the name of the selected policy.
+        :type response: cognitive_node_interfaces.srv.Execute.Response
+        :return: Response of the execution.
+        :rtype: cognitive_node_interfaces.srv.Execute.Response
+        """        
+        policy = self.select_policy()
+        if policy not in self.node_clients:
+            self.node_clients[policy] = ServiceClientAsync(self, Execute, f"policy/{policy}/execute", callback_group=self.cbgroup_client)
+        self.get_logger().info('Executing policy: ' + policy + '...')
+        await self.node_clients[policy].send_request_async()
+        response.policy = policy
+        return response
+    
+
+class PolicyQueue:
+    """
+    PolicyQueue Class, wrapper over the builtin deque object to create a policy queue.
+    """    
+    def __init__(self):
+        """
+        Constructor of the PolicyQueue class.
+        """
+        self.queue = deque()
+
+    def select_policy(self):
+        """
+        Selects a policy from the queue. It begins by selecting the front policy and rotates the queue.
+
+        :return: Selected policy.
+        :rtype: str
+        """
+        policy = self.front()
+        self.queue.rotate(1)
+        return policy
+    
+    def shuffle(self, rng: np.random.Generator):
+        """
+        Shuffles the queue using the provided random number generator.
+
+        :param rng: Random number generator to use for shuffling.
+        :type rng: np.random.Generator
+        """
+        rng.shuffle(self.queue)
+
+    def find_differences(self, items):
+        """
+        Finds the differences between the current queue and the provided items.
+
+        :param items: List of items to compare with the queue.
+        :type items: list
+        :return: Tuple containing the new items and the missing items.
+        :rtype: tuple (new_items, missing_items)
+        """
+        new = [x for x in items if x not in self.queue]
+        missing = [x for x in self.queue if x not in items]
+        return new, missing
+    
+    def merge(self, items):
+        """
+        Merges the current queue with the provided items. It adds new items and removes missing items.
+
+        :param items: List of items to merge with the queue.
+        :type items: list
+        :return: True if there are changes, False otherwise.
+        :rtype:  bool
+        """
+        new, missing = self.find_differences(items)
+        for item in new:
+            self.enqueue(item)
+        for item in missing:
+            self.remove(item)
+        if not new and not missing:
+            return False
+        return True
+
+    #Default access and change methods
+
+    def enqueue(self, item):
+        """
+        Adds an item to the front of the queue.
+
+        :param item: Item to add to the queue.
+        :type item: str
+        :return: None
+        :rtype: NoneType
+        """
+        return self.queue.appendleft(item)
+    
+    def dequeue(self):
+        """
+        Removes the last item from the queue.
+
+        :return: The last item in the queue.
+        :rtype: str
+        """
+        return self.queue.pop()
+    
+    def remove(self, item):
+        """
+        Removes an item from the queue.
+
+        :param item: Item to remove from the queue.
+        :type item: str
+        :return: True if the item was removed, False otherwise.
+        :rtype: bool
+        """
+        if item in self.queue:
+            self.queue.remove(item)
+            return True
+        return False
+    
+    def isEmpty(self):
+        """
+        Checks if the queue is empty.
+
+        :return: True if the queue is empty, False otherwise
+        :rtype: bool
+        """
+        return len(self.queue) == 0
+    
+    def front(self):
+        """
+        Returns the first item in the queue.
+
+        :return: The first item in the queue.
+        :rtype: str
+        """
+        return self.queue[-1]
+    
+    def rear(self):
+        """
+        Returns the last item in the queue.
+
+        :return: The last item in the queue.
+        :rtype: str
+        """
+        return self.queue[0]
+    
+    def exists(self, item):
+        """
+        Checks if an item exists in the queue.
+
+        :param item: Item to check for existence in the queue.
+        :type item: str
+        :return: True if the item exists in the queue, False otherwise.
+        :rtype: bool
+        """
+        return item in self.queue
+    
+    def __len__(self):
+        """
+        Returns the length of the queue.
+
+        :return: The length of the queue.
+        :rtype: int
+        """
+        return len(self.queue)
