@@ -9,7 +9,7 @@ e-MDB implementation of the WP8 Museum use case for the PILLAR project.
 
 ```bash
 cd ~/eMDB_ws/src/wp5_gii
-git clone [https://github.com/pillar-robots/wp8_museum.git](https://github.com/pillar-robots/wp8_museum.git)
+git clone https://github.com/pillar-robots/wp8_museum.git
 ```
 
 3. **Build and source the experiment:**
